@@ -5,11 +5,7 @@ from zipfile import ZipFile
 from pathlib import Path
 from docxtpl import DocxTemplate
 from dotenv import load_dotenv
-
-act_consitutiv_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
-
-act_constitutiv_doc = DocxTemplate(act_consitutiv_path)
-
+from io import BytesIO
 
 # Page settings
 st.set_page_config(
@@ -17,9 +13,12 @@ st.set_page_config(
     layout='centered'
 )
 
-st.title('This is a title')
+st.title('Înființare SRL - web app')
 
-zip_buffer = io.BytesIO()
+
+#zip_buffer = io.BytesIO()
+
+
 
 # --- HIDE STREAMLIT STYLE ---
 #hide_st_style = """
@@ -32,53 +31,66 @@ zip_buffer = io.BytesIO()
 #st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
+def var_dictionary ():
+    var_dict = {
+        'AS1_NUME': AS1_NUME,
+        'AS1_PRENUME': AS1_PRENUME,
+        'AS1_CETATENIE': AS1_CETATENIE,
+        'AS1_CNP': AS1_CNP,
+        'AS1_ACT_IDENT': AS1_ACT_IDENT,
+        'AS1_ACT_DATA_ELIB': AS1_ACT_DATA_ELIB,
+        'COMPANIE': COMPANIE,
+    }
+    return var_dict
+
+def generate_act_constitutiv():
+    act_consitutiv_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
+    act_constitutiv_doc = DocxTemplate(act_consitutiv_path)
+    context = var_dictionary()
+    act_constitutiv_doc.render(context)
+    output_act_constitutiv_path = Path.cwd() / "Results" / f"{COMPANIE}-Act-constitutiv.docx"
+    act_constitutiv_doc.save(output_act_constitutiv_path)
+    return act_constitutiv_doc
+    
+
 with st.form("infiintare_SRL", clear_on_submit=False):
     col1, col2 = st.columns(2)
-    col1.text_input('Nume Asociat', value="", placeholder='e.g. POPESCU', max_chars=None, key='AS1_NUME', help='xxxxxx')
-    col2.text_input('Prenume Asociat', value="", placeholder='e.g. DANIEL', max_chars=None, key='AS1_PRENUME', help='xxxxxxx')
-    col1.text_input('Cetățean', value="român", placeholder=None, max_chars=None, key='AS1_CETATENIE', help='xxxxxxx')
+    AS1_NUME = col1.text_input('Nume Asociat', value="", placeholder='e.g. POPESCU', max_chars=None, key='AS1_NUME', help='xxxxxx')
+    AS1_PRENUME = col2.text_input('Prenume Asociat', value="", placeholder='e.g. DANIEL', max_chars=None, key='AS1_PRENUME', help='xxxxxxx')
+    AS1_CETATENIE = col1.text_input('Cetățean', value="român", placeholder=None, max_chars=None, key='AS1_CETATENIE', help='xxxxxxx')
     col2.markdown('''<br/><br/>'''
         , unsafe_allow_html=True
     )
-    st.text_input('CNP', placeholder='e.g. 1840722368456', max_chars=13, key='AS1_CNP', help='xxxxxxx')
-    col2.selectbox('Tip act', ("CI", "Pașaport", "Permis de ședere"), index=0, key='AS1_ACT_IDENT', help=None)
-    st.date_input("Data eliberare", key='AS1_ACT_DATA_ELIB', help=None, format="DD.MM.YYYY",)
-    st.text_input('Nume Companie', value="", placeholder='e.g. ADAKRON CREATIVE ACOUNTING', max_chars=None, key='COMPANIE', help='Nu adaugați "SRL"')
+    AS1_CNP = st.text_input('CNP', placeholder='e.g. 1840722368456', max_chars=13, key='AS1_CNP', help='xxxxxxx')
+    AS1_ACT_IDENT = col2.selectbox('Tip act', ("CI", "Pașaport", "Permis de ședere"), index=0, key='AS1_ACT_IDENT', help=None)
+    AS1_ACT_DATA_ELIB = st.date_input("Data eliberare", key='AS1_ACT_DATA_ELIB', help=None, format="DD.MM.YYYY",)
+    COMPANIE = st.text_input('Nume Companie', value="", placeholder='e.g. ADAKRON CREATIVE ACOUNTING', max_chars=None, key='COMPANIE', help='Nu adaugați "SRL"')
     st.write(' ')
     submitted = st.form_submit_button("Pas 1: Crează documentele", type="primary")
 
 #    test = st.session_state.AS1_NUME
+#    test = generate_act_constitutiv()
 #    st.write(f"Value of AS1_NUME: {test}")
+#    st.write(f"Value of AS1_NUME: {AS1_NUME}")
 
-#    if submitted:
-#        with st.spinner("Generating Clean Room Scripts..."):
-#            data_clean_room.prepare_dcr_deployment(True, dcr_version, provider_account, None, consumer_account,
-#                                                None, abbreviation, path, dcr_data_selection)
-#            data_clean_room.execute()
-#
-#        # Message dependent on debug or not
-#        st.success("Succes! Documentele pot fi downloadate acum!")
-#
+    if submitted:
+        with st.spinner("Se generează documentele..."):
+            generate_act_constitutiv()
+        st.success("Succes! Documentele pot fi descărcate acum!")
+
 #        # Populate zip buffer for download buttons
 #        load_zip_buffer(data_clean_room, zip_buffer, include_comments)
         
         
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
-st.download_button(label="Pas 2: Downloadează", data=zip_buffer, file_name="Documente.zip", type="primary")
+
+
+with open(generate_act_constitutiv(), "rb") as doc_file:
+    docbyte = doc_file.read()
+st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
+
+
 
 # define "clear_fields" function with "field_key" as parameter. used to clear fields
 def clear_fields(field_key):
