@@ -11,7 +11,7 @@ st.set_page_config(
     page_title='My Application', 
     layout='centered'
 )
-st.title('Înființare SRL - web app')
+st.title('Înființare SRL - web app - v2')
 
 
 #zip_buffer = io.BytesIO()
@@ -78,7 +78,7 @@ if submitted:
         buffer1 = generate_act_constitutiv()
         buffer2 = generate_sediu_social()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
-    st.download_button(label="Pas 2: Downloadează", data=doc_buffer, file_name=f"{COMPANIE}-Act-constitutiv.docx", type="primary")
+    st.download_button(label="Pas 2: Downloadează", data=buffer1, file_name=f"{COMPANIE}-Act-constitutiv.docx", type="primary")
 
 
 #    test = st.session_state.AS1_NUME

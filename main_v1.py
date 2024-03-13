@@ -13,7 +13,7 @@ st.set_page_config(
     layout='centered'
 )
 
-st.title('Înființare SRL - web app')
+st.title('Înființare SRL - web app - v1')
 
 
 #zip_buffer = io.BytesIO()
@@ -91,9 +91,8 @@ if submitted:
         
         
 
-st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
-
-# st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
+#st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
+#st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
 
 
 
