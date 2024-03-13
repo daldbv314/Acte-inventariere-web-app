@@ -51,7 +51,15 @@ def generate_act_constitutiv():
     output_act_constitutiv_path = Path.cwd() / "Results" / f"{COMPANIE}-Act-constitutiv.docx"
     act_constitutiv_doc.save(output_act_constitutiv_path)
     return act_constitutiv_doc
-    
+
+def generate_sediu_social():
+    sediu_social_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
+    sediu_social_doc = DocxTemplate(sediu_social_path)
+    context = var_dictionary()
+    sediu_social_doc.render(context)
+    output_sediu_social_path = Path.cwd() / "Results" / f"{COMPANIE}-Declaratie-sediu-social.docx"
+    sediu_social_doc.save(output_sediu_social_path)
+    return sediu_social_doc
 
 with st.form("infiintare_SRL", clear_on_submit=False):
     col1, col2 = st.columns(2)
@@ -69,14 +77,14 @@ with st.form("infiintare_SRL", clear_on_submit=False):
     submitted = st.form_submit_button("Pas 1: Crează documentele", type="primary")
 
 #    test = st.session_state.AS1_NUME
-#    test = generate_act_constitutiv()
 #    st.write(f"Value of AS1_NUME: {test}")
 #    st.write(f"Value of AS1_NUME: {AS1_NUME}")
 
-    if submitted:
-        with st.spinner("Se generează documentele..."):
-            generate_act_constitutiv()
-        st.success("Succes! Documentele pot fi descărcate acum!")
+if submitted:
+    with st.spinner("Se generează documentele..."):
+        generate_act_constitutiv()
+        generate_sediu_social()
+    st.success("Succes! Documentele pot fi descărcate acum!")
 
 #        # Populate zip buffer for download buttons
 #        load_zip_buffer(data_clean_room, zip_buffer, include_comments)
@@ -85,10 +93,7 @@ with st.form("infiintare_SRL", clear_on_submit=False):
 
 st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
 
-
-with open(generate_act_constitutiv(), "rb") as doc_file:
-    docbyte = doc_file.read()
-st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
+# st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
 
 
 
