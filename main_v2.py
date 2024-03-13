@@ -14,9 +14,6 @@ st.set_page_config(
 st.title('Înființare SRL - web app - v2')
 
 
-#zip_buffer = io.BytesIO()
-
-
 # --- HIDE STREAMLIT STYLE ---
 #hide_st_style = """
 #            <style>
@@ -58,6 +55,21 @@ def generate_sediu_social():
     sediu_social_doc.save(sediu_social_bytes)
     return sediu_social_bytes.getvalue()
 
+def create_zip_archive():
+    # Generate the content for act constitutiv and sediu social
+    act_constitutiv_content = generate_act_constitutiv()
+    sediu_social_content = generate_sediu_social()
+    # Create an in-memory zip file
+    with io.BytesIO() as zip_buffer:
+        with ZipFile(zip_buffer, 'w') as zipf:
+            # Add act constitutiv to the zip archive
+            zipf.writestr('Act-constitutiv.docx',act_constitutiv_content)
+            # Add sediu social to the zip archive
+            zipf.writestr('Declaratie-sediu-social.docx',sediu_social_content)
+        # Get the zip archive content as bytes
+        zip_bytes = zip_buffer.getvalue()
+    return zip_bytes
+
 with st.form("infiintare_SRL", clear_on_submit=False):
         col1, col2 = st.columns(2)
         AS1_NUME = col1.text_input('Nume Asociat', value="", placeholder='e.g. POPESCU', max_chars=None, key='AS1_NUME', help='xxxxxx')
@@ -75,10 +87,10 @@ with st.form("infiintare_SRL", clear_on_submit=False):
 
 if submitted:
     with st.spinner("Se generează documentele..."):
-        buffer1 = generate_act_constitutiv()
-        buffer2 = generate_sediu_social()
+        zip_archive = create_zip_archive()
+#        test = generate_act_constitutiv()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
-    st.download_button(label="Pas 2: Downloadează", data=buffer1, file_name=f"{COMPANIE}-Act-constitutiv.docx", type="primary")
+    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{COMPANIE}-documente.zip", mime="docx", type="primary")
 
 
 #    test = st.session_state.AS1_NUME
@@ -103,4 +115,4 @@ if submitted:
 #    st.session_state.M_NAME = field_key
 #    st.session_state.L_NAME = field_key
 #
-#st.button('Reset', on_click=clear_fields, args=[''], help='Apasa pentru a sterge datele introduse pana acum')
+#st.button('Resetează campurile', on_click=clear_fields, args=[''], help='Apasa pentru a sterge datele introduse pana acum')

@@ -103,6 +103,6 @@ def clear_fields(field_key):
     st.session_state.M_NAME = field_key
     st.session_state.L_NAME = field_key
 
-st.button('Reset', on_click=clear_fields, args=[''], help='Apasa pentru a sterge datele introduse pana acum')
+st.button('Resetează campurile', on_click=clear_fields, args=[''], help='Apasa pentru a sterge datele introduse pana acum')
 
 
