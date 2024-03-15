@@ -47,7 +47,7 @@ def generate_act_constitutiv():
     return act_consitutiv_bytes.getvalue()
 
 def generate_sediu_social():
-    sediu_social_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
+    sediu_social_path = Path.cwd() / "Templates" / "v2-Declaratie-sediu-social-template.docx"
     sediu_social_doc = DocxTemplate(sediu_social_path)
     context = var_dictionary()
     sediu_social_doc.render(context)
@@ -96,15 +96,6 @@ if submitted:
 #    test = st.session_state.AS1_NUME
 #    st.write(f"Value of AS1_NUME: {test}")
 #    st.write(f"Value of AS1_NUME: {AS1_NUME}")
-
-
-#        # Populate zip buffer for download buttons
-#        load_zip_buffer(data_clean_room, zip_buffer, include_comments)
-        
-        
-
-# st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
-# st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
 
 
 

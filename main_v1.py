@@ -16,10 +16,6 @@ st.set_page_config(
 st.title('Înființare SRL - web app - v1')
 
 
-#zip_buffer = io.BytesIO()
-
-
-
 # --- HIDE STREAMLIT STYLE ---
 #hide_st_style = """
 #            <style>
@@ -50,16 +46,44 @@ def generate_act_constitutiv():
     act_constitutiv_doc.render(context)
     output_act_constitutiv_path = Path.cwd() / "Results" / f"{COMPANIE}-Act-constitutiv.docx"
     act_constitutiv_doc.save(output_act_constitutiv_path)
-    return act_constitutiv_doc
+#    return act_constitutiv_doc
 
 def generate_sediu_social():
-    sediu_social_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
+    sediu_social_path = Path.cwd() / "Templates" / "v2-Declaratie-sediu-social-template.docx"
     sediu_social_doc = DocxTemplate(sediu_social_path)
     context = var_dictionary()
     sediu_social_doc.render(context)
     output_sediu_social_path = Path.cwd() / "Results" / f"{COMPANIE}-Declaratie-sediu-social.docx"
     sediu_social_doc.save(output_sediu_social_path)
-    return sediu_social_doc
+#    return sediu_social_doc
+
+def create_zip_archive():
+    results_folder = Path.cwd() / "Results"
+    # Create an in-memory zip file
+    with io.BytesIO() as zip_buffer:
+        with ZipFile(zip_buffer, 'w') as zipf:
+            # Iterate through all .docx files in the "Results" folder
+            for docx_file in results_folder.glob("*.docx"):
+                zipf.write(docx_file, arcname=docx_file.name)
+        # Get the zip archive content as bytes
+        zip_bytes = zip_buffer.getvalue()
+    return zip_bytes
+
+def remove_docx_files():
+    # Path to the "Results" folder
+    results_folder = Path.cwd() / "Results"
+
+    # Iterate through all .docx files in the "Results" folder
+    for docx_file in results_folder.glob("*.docx"):
+        # Delete each .docx file
+        docx_file.unlink()
+
+# define "clear_fields" function with "field_key" as parameter. used to clear fields
+def clear_fields(field_key):
+    #session state variable should match key of input field
+    st.session_state.AS1_NUME = field_key
+    st.session_state.M_NAME = field_key
+    st.session_state.L_NAME = field_key
 
 with st.form("infiintare_SRL", clear_on_submit=False):
     col1, col2 = st.columns(2)
@@ -76,6 +100,7 @@ with st.form("infiintare_SRL", clear_on_submit=False):
     st.write(' ')
     submitted = st.form_submit_button("Pas 1: Crează documentele", type="primary")
 
+
 #    test = st.session_state.AS1_NUME
 #    st.write(f"Value of AS1_NUME: {test}")
 #    st.write(f"Value of AS1_NUME: {AS1_NUME}")
@@ -84,25 +109,9 @@ if submitted:
     with st.spinner("Se generează documentele..."):
         generate_act_constitutiv()
         generate_sediu_social()
+        zip_archive = create_zip_archive()
     st.success("Succes! Documentele pot fi descărcate acum!")
-
-#        # Populate zip buffer for download buttons
-#        load_zip_buffer(data_clean_room, zip_buffer, include_comments)
-        
-        
-
-#st.write("După ce ați primit mesajul de confirmare, puteți downloada documentele sub formă de arhivă.")
-#st.download_button(label="Pas 2: Downloadează", data=docbyte, file_name=f"{COMPANIE}-Act-constitutiv.docx", mime="docx", type="primary")
-
-
-
-# define "clear_fields" function with "field_key" as parameter. used to clear fields
-def clear_fields(field_key):
-    #session state variable should match key of input field
-    st.session_state.AS1_NUME = field_key
-    st.session_state.M_NAME = field_key
-    st.session_state.L_NAME = field_key
+    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{COMPANIE}-documente.zip", mime="docx", type="primary")
+    remove_docx_files()
 
 st.button('Resetează campurile', on_click=clear_fields, args=[''], help='Apasa pentru a sterge datele introduse pana acum')
-
-
