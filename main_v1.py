@@ -9,11 +9,11 @@ from io import BytesIO
 
 # Page settings
 st.set_page_config(
-    page_title='My Application', 
+    page_title='Inventariere', 
     layout='centered'
 )
 
-st.title('Înființare SRL - web app - v1')
+st.title('Crează actele pentru inventariere:')
 
 
 # --- HIDE STREAMLIT STYLE ---

@@ -8,10 +8,10 @@ from dotenv import load_dotenv
 from io import BytesIO
 
 st.set_page_config(
-    page_title='My Application', 
+    page_title='Inventariere', 
     layout='centered'
 )
-st.title('Înființare SRL - web app - v2')
+st.title('Crează actele pentru inventariere:')
 
 
 # --- HIDE STREAMLIT STYLE ---
@@ -81,7 +81,7 @@ with st.form("infiintare_SRL", clear_on_submit=False):
         AS1_CNP = st.text_input('CNP', placeholder='e.g. 1840722368456', max_chars=13, key='AS1_CNP', help='xxxxxxx')
         AS1_ACT_IDENT = col2.selectbox('Tip act', ("CI", "Pașaport", "Permis de ședere"), index=0, key='AS1_ACT_IDENT', help=None)
         AS1_ACT_DATA_ELIB = st.date_input("Data eliberare", key='AS1_ACT_DATA_ELIB', help=None, format="DD.MM.YYYY",)
-        COMPANIE = st.text_input('Nume Companie', value="", placeholder='e.g. ADAKRON CREATIVE ACOUNTING', max_chars=None, key='COMPANIE', help='Nu adaugați "SRL"')
+        COMPANIE = st.text_input('Nume Companie', value="", placeholder='e.g. ADAKRON CREATIVE ACOUNTING', max_chars=None, help='Nu adaugați "SRL"')
         st.write(' ')
         submitted = st.form_submit_button("Pas 1: Crează documentele", type="primary")
 
@@ -91,7 +91,6 @@ if submitted:
 #        test = generate_act_constitutiv()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
     st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{COMPANIE}-documente.zip", mime="docx", type="primary")
-
 
 #    test = st.session_state.AS1_NUME
 #    st.write(f"Value of AS1_NUME: {test}")
