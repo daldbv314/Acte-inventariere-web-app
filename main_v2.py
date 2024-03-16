@@ -1,5 +1,6 @@
 import os
 import io
+import datetime
 import streamlit as st
 from zipfile import ZipFile
 from pathlib import Path
@@ -9,9 +10,9 @@ from io import BytesIO
 
 st.set_page_config(
     page_title='Inventariere', 
-    layout='centered'
+    layout='wide',
 )
-st.title('Crează actele pentru inventariere:')
+st.title('Creează actele pentru inventariere:')
 
 
 # --- HIDE STREAMLIT STYLE ---
@@ -27,61 +28,202 @@ st.title('Crează actele pentru inventariere:')
 
 def var_dictionary ():
     var_dict = {
-        'AS1_NUME': AS1_NUME,
-        'AS1_PRENUME': AS1_PRENUME,
-        'AS1_CETATENIE': AS1_CETATENIE,
-        'AS1_CNP': AS1_CNP,
-        'AS1_ACT_IDENT': AS1_ACT_IDENT,
-        'AS1_ACT_DATA_ELIB': AS1_ACT_DATA_ELIB,
-        'COMPANIE': COMPANIE,
+        'companie' : companie,
+        'cui' : cui,
+        'nr_inreg' : nr_inreg,
+        'loc_sed' : loc_sed,
+        'str_sed' : str_sed,
+        'nr_sed' : nr_sed,
+        'bl_sed' : bl_sed,
+        'sc_sed' : sc_sed,
+        'et_sed' : et_sed,
+        'ap_sed' : ap_sed,
+        'cam_sed' : cam_sed,
+        'jud_sed' : jud_sed,
+        'nr_decz' : nr_decz,
+        'data_decz' : data_decz,
+        'administrator' : administrator,
+        'data_inv' : data_inv,
+        'data_predare_pv' : data_predare_pv,
+        'an_inv' : an_inv,
+        'tip_inv' : tip_inv,
+        'tip_doc_in_gest' : tip_doc_in_gest,
+        'nr_doc_in_gest' : nr_doc_in_gest,
+        'data_doc_in_gest' : data_doc_in_gest,
+        'tip_doc_out_gest' : tip_doc_out_gest,
+        'nr_doc_out_gest' : nr_doc_out_gest,
+        'data_doc_out_gest' : data_doc_out_gest,
+#        'tip_doc_in_casier' : tip_doc_in_casier,
+#        'nr_doc_in_casier' : nr_doc_in_casier,
+#        'data_doc_in_casier' : data_doc_in_casier,
+#        'tip_doc_out_casier' : tip_doc_out_casier,
+#        'nr_doc_out_casier' : nr_doc_out_casier,
+#        'data_doc_out_casier' : data_doc_out_casier,
+        'tip_doc_in_casier_cb' : tip_doc_in_casier_cb,
+        'nr_doc_in_casier_cb' : nr_doc_in_casier_cb,
+        'data_doc_in_casier_cb' : data_doc_in_casier_cb,
+        'data_incasare_doc_in_cb' : data_incasare_doc_in_cb,
+#        'tip_doc_out_casier_cb' : tip_doc_out_casier_cb,
+        'nr_doc_out_casier_cb' : nr_doc_out_casier_cb,
+        'data_doc_out_casier_cb' : data_doc_out_casier_cb,
+        'data_plata_doc_out_cb' : data_plata_doc_out_cb,
+        'furnizor_plata_out_cb' : furnizor_plata_out_cb,
+        'ultima_zi_reg_casa' : ultima_zi_reg_casa,
     }
     return var_dict
 
-def generate_act_constitutiv():
-    act_consitutiv_path = Path.cwd() / "Templates" / "v2-Act-constitutiv-(asociat-unic)-template.docx"
-    act_constitutiv_doc = DocxTemplate(act_consitutiv_path)
+def doc01():
+    doc01_path = Path.cwd() / "Templates" / "01-Decizie-inventariere-v1.0.docx"
+    doc01_doc = DocxTemplate(doc01_path)
     context = var_dictionary()
-    act_constitutiv_doc.render(context)
-    act_consitutiv_bytes = BytesIO()
-    act_constitutiv_doc.save(act_consitutiv_bytes)
-    return act_consitutiv_bytes.getvalue()
+    doc01_doc.render(context)
+    doc01_bytes = BytesIO()
+    doc01_doc.save(doc01_bytes)
+    return doc01_bytes.getvalue()
 
-def generate_sediu_social():
-    sediu_social_path = Path.cwd() / "Templates" / "v2-Declaratie-sediu-social-template.docx"
-    sediu_social_doc = DocxTemplate(sediu_social_path)
+def doc02():
+    doc02_path = Path.cwd() / "Templates" / "02-Grafic-de-desfasurare-inventariere-v1.0.docx"
+    doc02_doc = DocxTemplate(doc02_path)
     context = var_dictionary()
-    sediu_social_doc.render(context)
-    sediu_social_bytes = BytesIO()
-    sediu_social_doc.save(sediu_social_bytes)
-    return sediu_social_bytes.getvalue()
+    doc02_doc.render(context)
+    doc02_bytes = BytesIO()
+    doc02_doc.save(doc02_bytes)
+    return doc02_bytes.getvalue()
+
+def doc03():
+    doc03_path = Path.cwd() / "Templates" / "03-Proceduri-privind-inventarierea-v1.0.docx"
+    doc03_doc = DocxTemplate(doc03_path)
+    context = var_dictionary()
+    doc03_doc.render(context)
+    doc03_bytes = BytesIO()
+    doc03_doc.save(doc03_bytes)
+    return doc03_bytes.getvalue()
+
+def doc04():
+    doc04_path = Path.cwd() / "Templates" / "04-Declaratie-gestionar-inainte-inv-v1.0.docx"
+    doc04_doc = DocxTemplate(doc04_path)
+    context = var_dictionary()
+    doc04_doc.render(context)
+    doc04_bytes = BytesIO()
+    doc04_doc.save(doc04_bytes)
+    return doc04_bytes.getvalue()
+
+def doc07():
+    doc07_path = Path.cwd() / "Templates" / "07-Declaratie-responsabil-conturi-bancare-v1.0.docx"
+    doc07_doc = DocxTemplate(doc07_path)
+    context = var_dictionary()
+    doc07_doc.render(context)
+    doc07_bytes = BytesIO()
+    doc07_doc.save(doc07_bytes)
+    return doc07_bytes.getvalue()
+
+def doc08():
+    doc08_path = Path.cwd() / "Templates" / "08-Declaratie-gestionar-sfarsit-inv-v1.0.docx"
+    doc08_doc = DocxTemplate(doc08_path)
+    context = var_dictionary()
+    doc08_doc.render(context)
+    doc08_bytes = BytesIO()
+    doc08_doc.save(doc08_bytes)
+    return doc08_bytes.getvalue()
 
 def create_zip_archive():
-    # Generate the content for act constitutiv and sediu social
-    act_constitutiv_content = generate_act_constitutiv()
-    sediu_social_content = generate_sediu_social()
+    # Generate the content for each document
+    doc01_content = doc01()
+    doc02_content = doc02()
+    doc03_content = doc03()
+    doc04_content = doc04()
+    doc07_content = doc07()
+    doc08_content = doc08()
     # Create an in-memory zip file
     with io.BytesIO() as zip_buffer:
         with ZipFile(zip_buffer, 'w') as zipf:
-            # Add act constitutiv to the zip archive
-            zipf.writestr('Act-constitutiv.docx',act_constitutiv_content)
-            # Add sediu social to the zip archive
-            zipf.writestr('Declaratie-sediu-social.docx',sediu_social_content)
+            # Add each doc to the archive
+            zipf.writestr('01-Decizie-inventariere-v1.0.docx',doc01_content)
+            zipf.writestr('02-Grafic-de-desfasurare-inventariere-v1.0.docx',doc02_content)
+            zipf.writestr('03-Proceduri-privind-inventarierea-v1.0.docx',doc03_content)
+            zipf.writestr('04-Declaratie-gestionar-inainte-inv-v1.0.docx',doc04_content)
+            zipf.writestr('07-Declaratie-responsabil-conturi-bancare-v1.0.docx',doc07_content)
+            zipf.writestr('08-Declaratie-gestionar-sfarsit-inv-v1.0.docx',doc08_content)
         # Get the zip archive content as bytes
         zip_bytes = zip_buffer.getvalue()
     return zip_bytes
 
-with st.form("infiintare_SRL", clear_on_submit=False):
-        col1, col2 = st.columns(2)
-        AS1_NUME = col1.text_input('Nume Asociat', value="", placeholder='e.g. POPESCU', max_chars=None, key='AS1_NUME', help='xxxxxx')
-        AS1_PRENUME = col2.text_input('Prenume Asociat', value="", placeholder='e.g. DANIEL', max_chars=None, key='AS1_PRENUME', help='xxxxxxx')
-        AS1_CETATENIE = col1.text_input('Cetățean', value="român", placeholder=None, max_chars=None, key='AS1_CETATENIE', help='xxxxxxx')
-        col2.markdown('''<br/><br/>'''
-            , unsafe_allow_html=True
-        )
-        AS1_CNP = st.text_input('CNP', placeholder='e.g. 1840722368456', max_chars=13, key='AS1_CNP', help='xxxxxxx')
-        AS1_ACT_IDENT = col2.selectbox('Tip act', ("CI", "Pașaport", "Permis de ședere"), index=0, key='AS1_ACT_IDENT', help=None)
-        AS1_ACT_DATA_ELIB = st.date_input("Data eliberare", key='AS1_ACT_DATA_ELIB', help=None, format="DD.MM.YYYY",)
-        COMPANIE = st.text_input('Nume Companie', value="", placeholder='e.g. ADAKRON CREATIVE ACOUNTING', max_chars=None, help='Nu adaugați "SRL"')
+with st.form("inventar", clear_on_submit=False):
+        
+        col1, col2, col3 = st.columns(3, gap="small")
+        companie = col1.text_input('Companie', value="", placeholder='e.g. ADAKRON', max_chars=None, help='nu adaugati "SRL"')
+        cui = col2.text_input('CUI', value="", placeholder='e.g. 112233', max_chars=None)
+        nr_inreg = col3.text_input('Nr. înregistrare', value="", placeholder='JX/XXXX/XX.XX.XXXX', max_chars=None  )
+
+        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([0.25, 0.25, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08], gap="small")
+        loc_sed = col1.text_input('Localitate sediu', placeholder='e.g. BRAȘOV')
+        str_sed = col2.text_input('Strada', placeholder='e.g. NICOLAE LABIȘ')
+        nr_sed = col3.text_input('Nr.', placeholder='xx')
+        bl_sed = col4.text_input('Bl.', placeholder='xx')
+        sc_sed = col5.text_input('Sc.', placeholder='xx')
+        et_sed = col6.text_input('Et.', placeholder='xx')
+        ap_sed = col7.text_input('Ap.', placeholder='xx')
+        cam_sed = col8.text_input('Camera/birou', placeholder='xx')
+
+        col1, col2, col3, col4 = st.columns(4, gap="small")
+        jud_sed = col1.text_input('Județ', placeholder='e.g. BRAȘOV')
+        administrator = col2.text_input('Administrator', placeholder='e.g. POPESCU ANDREI')
+
+        st.divider()
+
+        st.write('Decizie inventariere:')
+
+        col1, col2, col3, col4, col5 = st.columns([0.16, 0.16, 0.16, 0.08, 0.38], gap="small")
+        nr_decz = col1.text_input('Nr. decizie', placeholder='xx')
+        data_decz_tmp = col2.date_input('Data decizie', help=None, format="DD.MM.YYYY")
+        data_decz = data_decz_tmp.strftime("%d.%m.%Y")
+        data_inv_tmp = col3.date_input('Data inventar', datetime.date.today(), key='data_inv_key', help=None, format="DD.MM.YYYY")
+        data_inv = data_inv_tmp.strftime("%d.%m.%Y")
+        an_inv = data_inv_tmp.year
+        data_predare_pv_tmp = data_inv_tmp + datetime.timedelta(days=7)
+        data_predare_pv = data_predare_pv_tmp.strftime("%d.%m.%Y")
+        tip_inv = col5.selectbox('Situatiile financiare', (f"anuale întocmite pentru anul {an_inv}", f"interimare întocmite pentru trimestrul I al anului {an_inv}", f"interimare întocmite pentru trimestrul II al anului {an_inv}", f"interimare întocmite pentru trimestrul III al anului {an_inv}"), index=0)
+#        st.write('Test:', data_predare_pv)
+#        st.write('Test:', an_inv)
+#        st.caption('This is a string that explains something above.')
+#        st.text('This is regular text')
+#        st.write('This is wtire')
+#        st.write('<u>Decizie inventariere:<u>',unsafe_allow_html=True)
+#        st.header('This is a header')
+#        st.subheader('This is a subheader')
+#        st.title('This is a title')
+        st.divider()
+
+        st.write('Declaratie gestionar:')
+        col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
+        tip_doc_in_gest = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_gest', index=0, help=None)
+        nr_doc_in_gest = col2.text_input('Nr.', key='nr_doc_in', placeholder='xx')
+        data_doc_in_gest = col3.date_input('Data document', key='data_doc_in', value=None, help=None, format="DD.MM.YYYY")
+        tip_doc_out_gest = col4.selectbox('Tip document iesire', ("Factura", "Raport Z"), key='tip_doc_out_gest', index=0, help=None)
+        nr_doc_out_gest =  col5.text_input('Nr.', key='nr_doc_out', placeholder='xx')
+        data_doc_out_gest = col6.date_input('Data document', key='data_doc_out', value=None, help=None, format="DD.MM.YYYY")
+
+        st.divider()
+
+        st.write('Declaratie gestionar conturi bancare:')
+        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9, gap="small")
+        tip_doc_in_casier_cb = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_casier_cb', index=0, help=None)
+        nr_doc_in_casier_cb = col2.text_input('Nr.', key='nr_doc_in_casier_cb', placeholder='xx')
+        data_doc_in_casier_cb = col3.date_input('Data document', key='data_doc_in_casier_cb', value=None, help=None, format="DD.MM.YYYY")
+        data_incasare_doc_in_cb = col4.date_input('Data încasare', key='data_incasare_doc_in_cb', value=None, help=None, format="DD.MM.YYYY")
+#        tip_doc_out_casier_cb = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_out_casier_cb', index=0, help=None)
+        nr_doc_out_casier_cb = col6.text_input('Nr.', key='nr_doc_out_casier_cb', placeholder='xx')
+        data_doc_out_casier_cb = col7.date_input('Data document', key='data_doc_out_casier_cb', value=None, help=None, format="DD.MM.YYYY")
+        data_plata_doc_out_cb = col8.date_input('Data plata', key='data_plata_doc_out_cb', value=None, help=None, format="DD.MM.YYYY")
+        furnizor_plata_out_cb = col9.text_input('Furnizor', key='furnizor_plata_out_cb', placeholder='S.C. ADAKRON S.R.L.')
+
+        st.divider()
+
+        st.write('Proces verbal de inventariere:')
+        ultima_zi_reg_casa = st.date_input('???????', key='ultima_zi_reg_casa', value=None, help=None, format="DD.MM.YYYY")
+
+        st.divider()
+
         st.write(' ')
         submitted = st.form_submit_button("Pas 1: Crează documentele", type="primary")
 
@@ -90,7 +232,7 @@ if submitted:
         zip_archive = create_zip_archive()
 #        test = generate_act_constitutiv()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
-    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{COMPANIE}-documente.zip", mime="docx", type="primary")
+    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{companie}-documente.zip", mime="docx", type="primary")
 
 #    test = st.session_state.AS1_NUME
 #    st.write(f"Value of AS1_NUME: {test}")
