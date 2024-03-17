@@ -53,22 +53,82 @@ def var_dictionary ():
         'tip_doc_out_gest' : tip_doc_out_gest,
         'nr_doc_out_gest' : nr_doc_out_gest,
         'data_doc_out_gest' : data_doc_out_gest,
+        
 #        'tip_doc_in_casier' : tip_doc_in_casier,
 #        'nr_doc_in_casier' : nr_doc_in_casier,
 #        'data_doc_in_casier' : data_doc_in_casier,
 #        'tip_doc_out_casier' : tip_doc_out_casier,
 #        'nr_doc_out_casier' : nr_doc_out_casier,
 #        'data_doc_out_casier' : data_doc_out_casier,
+
         'tip_doc_in_casier_cb' : tip_doc_in_casier_cb,
         'nr_doc_in_casier_cb' : nr_doc_in_casier_cb,
         'data_doc_in_casier_cb' : data_doc_in_casier_cb,
         'data_incasare_doc_in_cb' : data_incasare_doc_in_cb,
-#        'tip_doc_out_casier_cb' : tip_doc_out_casier_cb,
+        'tip_doc_out_casier_cb' : tip_doc_out_casier_cb,
         'nr_doc_out_casier_cb' : nr_doc_out_casier_cb,
         'data_doc_out_casier_cb' : data_doc_out_casier_cb,
         'data_plata_doc_out_cb' : data_plata_doc_out_cb,
         'furnizor_plata_out_cb' : furnizor_plata_out_cb,
+
         'ultima_zi_reg_casa' : ultima_zi_reg_casa,
+        'sold_casa_lei' : sold_casa_lei,
+
+        'lei500' : lei500,
+        'lei200' : lei200,
+        'lei100' : lei100,
+        'lei50' : lei50,
+        'lei20' : lei20,
+        'lei10' : lei10,
+        'lei5' : lei5,
+        'leu1' : leu1,
+        'bani50' : bani50,
+        'bani10' : bani10,
+        'bani5' : bani5,
+        'ban1' : ban1,
+
+        'totlei500' : totlei500,
+        'totlei200' : totlei200,
+        'totlei100' : totlei100,
+        'totlei50' : totlei50,
+        'totlei20' : totlei20,
+        'totlei10' : totlei10,
+        'totlei5' : totlei5,
+        'totleu1' : totleu1,
+        'totbani50' : totbani50,
+        'totbani10' : totbani10,
+        'totbani5' : totbani5,
+        'totban1' : totban1,
+
+        'banca1lei' : banca1lei,
+        'cont_banca1lei' : cont_banca1lei,
+        'sold_banca1lei' : sold_banca1lei,
+        'banca2lei' : banca2lei,
+        'cont_banca2lei' : cont_banca2lei,
+        'sold_banca2lei' : sold_banca2lei,
+        'banca3lei' : banca3lei,
+        'cont_banca3lei' : cont_banca3lei,
+        'sold_banca3lei' : sold_banca3lei,
+
+        'banca1euro' : banca1euro,
+        'cont_banca1euro' : cont_banca1euro,
+        'sold_banca1euro' : sold_banca1euro,
+        'banca2euro' : banca2euro,
+        'cont_banca2euro' : cont_banca2euro,
+        'sold_banca2euro' : sold_banca2euro,
+        'banca3euro' : banca3euro,
+        'cont_banca3euro' : cont_banca3euro,
+        'sold_banca3euro' : sold_banca3euro,
+
+        'banca1usd' : banca1usd,
+        'cont_banca1usd' : cont_banca1usd,
+        'sold_banca1usd' : sold_banca1usd,
+        'banca2usd' : banca2usd,
+        'cont_banca2usd' : cont_banca2usd,
+        'sold_banca2usd' : sold_banca2usd,
+        'banca3usd' : banca3usd,
+        'cont_banca3usd' : cont_banca3usd,
+        'sold_banca3usd' : sold_banca3usd,
     }
     return var_dict
 
@@ -211,7 +271,7 @@ with st.form("inventar", clear_on_submit=False):
         nr_doc_in_casier_cb = col2.text_input('Nr.', key='nr_doc_in_casier_cb', placeholder='xx')
         data_doc_in_casier_cb = col3.date_input('Data document', key='data_doc_in_casier_cb', value=None, help=None, format="DD.MM.YYYY")
         data_incasare_doc_in_cb = col4.date_input('Data încasare', key='data_incasare_doc_in_cb', value=None, help=None, format="DD.MM.YYYY")
-#        tip_doc_out_casier_cb = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_out_casier_cb', index=0, help=None)
+        tip_doc_out_casier_cb = col5.selectbox('Tip document ieșire', ("Factura", "Bon fiscal"), key='tip_doc_out_casier_cb', index=0, help=None)
         nr_doc_out_casier_cb = col6.text_input('Nr.', key='nr_doc_out_casier_cb', placeholder='xx')
         data_doc_out_casier_cb = col7.date_input('Data document', key='data_doc_out_casier_cb', value=None, help=None, format="DD.MM.YYYY")
         data_plata_doc_out_cb = col8.date_input('Data plata', key='data_plata_doc_out_cb', value=None, help=None, format="DD.MM.YYYY")
@@ -219,8 +279,59 @@ with st.form("inventar", clear_on_submit=False):
 
         st.divider()
 
-        st.write('Proces verbal de inventariere:')
-        ultima_zi_reg_casa = st.date_input('???????', key='ultima_zi_reg_casa', value=None, help=None, format="DD.MM.YYYY")
+        st.write('Proces verbal de inventariere numerar si conturi bancare:')
+        col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
+        ultima_zi_reg_casa = col1.date_input('Ultima zi registru casa', key='ultima_zi_reg_casa', value=None, help=None, format="DD.MM.YYYY")
+        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8, gap="small")
+        col1.write('Nr si tip bancnote și monede:')
+        lei500 = col2.number_input('Nr. bancnote 500 lei', key='lei500', label_visibility="visible")
+        lei200 = col3.number_input('Nr. bancnote 200 lei', key='lei200', label_visibility="visible")
+        lei100 = col4.number_input('Nr. bancnote 100 lei', key='lei100', label_visibility="visible")
+        lei50 = col5.number_input('Nr. bancnote 50 lei', key='lei50', label_visibility="visible")
+        lei20 = col6.number_input('Nr. bancnote 20 lei', key='lei20', label_visibility="visible")
+        lei10 = col7.number_input('Nr. bancnote 10 lei', key='lei10', label_visibility="visible")
+        lei5 = col8.number_input('Nr. bancnote 5 lei', key='lei5', label_visibility="visible")
+        leu1 = col2.number_input('Nr. bancnote 1 leu', key='leu1', label_visibility="visible")
+        bani50 = col3.number_input('Nr. monede 50 bani', key='bani50', label_visibility="visible")
+        bani10 = col4.number_input('Nr. monede 10 bani', key='bani10', label_visibility="visible")
+        bani5 = col5.number_input('Nr. monede 5 bani', key='bani5', label_visibility="visible")
+        ban1 = col6.number_input('Nr. monede 1 ban', key='ban1', label_visibility="visible")
+        
+        col1, col2, col3, col4, col5 = st.columns([0.125, 0.25, 0.25, 0.125, 0.25], gap="small")
+        col1.write('Detalii conturi bancare in LEI:')
+        banca1lei = col2.text_input('Banca', key='banca1lei', placeholder='ING BANK S.A.')
+        cont_banca1lei = col3.text_input('Nr. cont', key='cont_banca1lei', placeholder='RO62INGB00009999100000000')
+        sold_banca1lei = col4.number_input('Sold LEI', key='sold_banca1lei', label_visibility="visible")
+        banca2lei = col2.text_input('Banca', key='banca2lei', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca2lei = col3.text_input('Nr. cont', key='cont_banca2lei', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca2lei = col4.number_input('Sold LEI', key='sold_banca2lei', label_visibility="collapsed")
+        banca3lei = col2.text_input('Banca', key='banca3lei', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca3lei = col3.text_input('Nr. cont', key='cont_banca3lei', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca3lei = col4.number_input('Sold LEI', key='sold_banca3lei', label_visibility="collapsed")
+
+        col1, col2, col3, col4, col5 = st.columns([0.125, 0.25, 0.25, 0.125, 0.25], gap="small")
+        col1.write('Detalii conturi bancare in EURO:')
+        banca1euro = col2.text_input('Banca', key='banca1euro', placeholder='ING BANK S.A.')
+        cont_banca1euro = col3.text_input('Nr. cont', key='cont_banca1euro', placeholder='RO62INGB00009999100000000')
+        sold_banca1euro = col4.number_input('Sold EURO', key='sold_banca1euro', label_visibility="visible")
+        banca2euro = col2.text_input('Banca', key='banca2euro', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca2euro = col3.text_input('Nr. cont', key='cont_banca2euro', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca2euro = col4.number_input('Sold EURO', key='sold_banca2euro', label_visibility="collapsed")
+        banca3euro = col2.text_input('Banca', key='banca3euro', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca3euro = col3.text_input('Nr. cont', key='cont_banca3euro', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca3euro = col4.number_input('Sold EURO', key='sold_banca3euro', label_visibility="collapsed")
+
+        col1, col2, col3, col4, col5 = st.columns([0.125, 0.25, 0.25, 0.125, 0.25], gap="small")
+        col1.write('Detalii conturi bancare in USD:')
+        banca1usd = col2.text_input('Banca', key='banca1usd', placeholder='ING BANK S.A.')
+        cont_banca1usd = col3.text_input('Nr. cont', key='cont_banca1usd', placeholder='RO62INGB00009999100000000')
+        sold_banca1usd = col4.number_input('Sold USD', key='sold_banca1usd', label_visibility="visible")
+        banca2usd = col2.text_input('Banca', key='banca2usd', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca2usd = col3.text_input('Nr. cont', key='cont_banca2usd', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca2usd = col4.number_input('Sold USD', key='sold_banca2usd', label_visibility="collapsed")
+        banca3usd = col2.text_input('Banca', key='banca3usd', placeholder='ING BANK S.A.', label_visibility="collapsed")
+        cont_banca3usd = col3.text_input('Nr. cont', key='cont_banca3usd', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
+        sold_banca3usd = col4.number_input('Sold USD', key='sold_banca3usd', label_visibility="collapsed")
 
         st.divider()
 
@@ -229,6 +340,22 @@ with st.form("inventar", clear_on_submit=False):
 
 if submitted:
     with st.spinner("Se generează documentele..."):
+
+        totlei500 = 500 * lei500
+        totlei200 = 200 * lei200
+        totlei100 = 100 * lei100
+        totlei50 = 50 * lei50
+        totlei20 = 20 * lei20
+        totlei10 = 10 * lei10 
+        totlei5  = 5 * lei5
+        totleu1  = 1 * leu1
+        totbani50 = 0.5 * bani50
+        totbani10 = 0.1 * bani10
+        totbani5 = 0.05 * bani5
+        totban1  = 0.01 * ban1
+
+        sold_casa_lei = totlei500 + totlei200 + totlei100 + totlei50 + totlei20 + totlei10 + totlei5 + totlei10 + totlei5 + totleu1 + totbani50 + totbani10 + totbani5 + totban1
+
         zip_archive = create_zip_archive()
 #        test = generate_act_constitutiv()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
