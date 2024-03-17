@@ -53,7 +53,7 @@ def var_dictionary ():
         'tip_doc_out_gest' : tip_doc_out_gest,
         'nr_doc_out_gest' : nr_doc_out_gest,
         'data_doc_out_gest' : data_doc_out_gest,
-        
+
 #        'tip_doc_in_casier' : tip_doc_in_casier,
 #        'nr_doc_in_casier' : nr_doc_in_casier,
 #        'data_doc_in_casier' : data_doc_in_casier,
@@ -168,6 +168,15 @@ def doc04():
     doc04_doc.save(doc04_bytes)
     return doc04_bytes.getvalue()
 
+def doc05():
+    doc05_path = Path.cwd() / "Templates" / "05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx"
+    doc05_doc = DocxTemplate(doc05_path)
+    context = var_dictionary()
+    doc05_doc.render(context)
+    doc05_bytes = BytesIO()
+    doc05_doc.save(doc05_bytes)
+    return doc05_bytes.getvalue()
+
 def doc07():
     doc07_path = Path.cwd() / "Templates" / "07-Declaratie-responsabil-conturi-bancare-v1.0.docx"
     doc07_doc = DocxTemplate(doc07_path)
@@ -192,6 +201,7 @@ def create_zip_archive():
     doc02_content = doc02()
     doc03_content = doc03()
     doc04_content = doc04()
+    doc05_content = doc05()
     doc07_content = doc07()
     doc08_content = doc08()
     # Create an in-memory zip file
@@ -202,6 +212,7 @@ def create_zip_archive():
             zipf.writestr('02-Grafic-de-desfasurare-inventariere-v1.0.docx',doc02_content)
             zipf.writestr('03-Proceduri-privind-inventarierea-v1.0.docx',doc03_content)
             zipf.writestr('04-Declaratie-gestionar-inainte-inv-v1.0.docx',doc04_content)
+            zipf.writestr('05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx',doc08_content)
             zipf.writestr('07-Declaratie-responsabil-conturi-bancare-v1.0.docx',doc07_content)
             zipf.writestr('08-Declaratie-gestionar-sfarsit-inv-v1.0.docx',doc08_content)
         # Get the zip archive content as bytes
