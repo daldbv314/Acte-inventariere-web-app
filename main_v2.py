@@ -212,7 +212,7 @@ def create_zip_archive():
             zipf.writestr('02-Grafic-de-desfasurare-inventariere-v1.0.docx',doc02_content)
             zipf.writestr('03-Proceduri-privind-inventarierea-v1.0.docx',doc03_content)
             zipf.writestr('04-Declaratie-gestionar-inainte-inv-v1.0.docx',doc04_content)
-            zipf.writestr('05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx',doc08_content)
+            zipf.writestr('05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx',doc05_content)
             zipf.writestr('07-Declaratie-responsabil-conturi-bancare-v1.0.docx',doc07_content)
             zipf.writestr('08-Declaratie-gestionar-sfarsit-inv-v1.0.docx',doc08_content)
         # Get the zip archive content as bytes
@@ -343,6 +343,26 @@ with st.form("inventar", clear_on_submit=False):
         banca3usd = col2.text_input('Banca', key='banca3usd', placeholder='ING BANK S.A.', label_visibility="collapsed")
         cont_banca3usd = col3.text_input('Nr. cont', key='cont_banca3usd', placeholder='RO62INGB00009999100000000', label_visibility="collapsed")
         sold_banca3usd = col4.number_input('Sold USD', key='sold_banca3usd', label_visibility="collapsed")
+
+        st.divider()
+
+        st.write('Proces verbal privind rezultatele inventarierii:')
+        col1, col2, col3, col4, col5 = st.columns([0.125, 0.125, 0.375, 0.125, 0.25], gap="small")
+        col2.text_input('Cont', key='cont1_ap', placeholder='1038', label_visibility="collapsed")
+        col3.write('Diferente din modificarea valorii juste a activelor financiare disponibile in vederea vanzarii si alte elemente de capitaluri proprii (A/P)')
+        col4.text_input('Valoare', key='val1_ap', placeholder='Valoare', label_visibility="collapsed")
+        col2.text_input('Cont', key='cont2_ap', placeholder='....', label_visibility="collapsed")
+        col3.write('...')
+        col4.text_input('Valoare', key='val2_ap', placeholder='Valoare', label_visibility="collapsed")
+        col2.text_input('Cont', key='cont3_ap', placeholder='....', label_visibility="collapsed")
+        col3.write('...')
+        col4.text_input('Valoare', key='val3_ap', placeholder='Valoare', label_visibility="collapsed")
+        col2.text_input('Cont', key='cont4_ap', placeholder='....', label_visibility="collapsed")
+        col3.write('...')
+        col4.text_input('Valoare', key='val4_ap', placeholder='Valoare', label_visibility="collapsed")
+        col2.text_input('Cont', key='cont5_ap', placeholder='....', label_visibility="collapsed")
+        col3.write('...')
+        col4.text_input('Valoare', key='val5_ap', placeholder='Valoare', label_visibility="collapsed")
 
         st.divider()
 
