@@ -54,12 +54,12 @@ def var_dictionary ():
         'nr_doc_out_gest' : nr_doc_out_gest,
         'data_doc_out_gest' : data_doc_out_gest,
 
-#        'tip_doc_in_casier' : tip_doc_in_casier,
-#        'nr_doc_in_casier' : nr_doc_in_casier,
-#        'data_doc_in_casier' : data_doc_in_casier,
-#        'tip_doc_out_casier' : tip_doc_out_casier,
-#        'nr_doc_out_casier' : nr_doc_out_casier,
-#        'data_doc_out_casier' : data_doc_out_casier,
+        'tip_doc_in_casier' : tip_doc_in_casier,
+        'nr_doc_in_casier' : nr_doc_in_casier,
+        'data_doc_in_casier' : data_doc_in_casier,
+        'tip_doc_out_casier' : tip_doc_out_casier,
+        'nr_doc_out_casier' : nr_doc_out_casier,
+        'data_doc_out_casier' : data_doc_out_casier,
 
         'tip_doc_in_casier_cb' : tip_doc_in_casier_cb,
         'nr_doc_in_casier_cb' : nr_doc_in_casier_cb,
@@ -129,6 +129,39 @@ def var_dictionary ():
         'banca3usd' : banca3usd,
         'cont_banca3usd' : cont_banca3usd,
         'sold_banca3usd' : sold_banca3usd,
+
+        'cont1_ap' : cont1_ap,
+        'den_cont1_ap' : den_cont1_ap,
+        'val1_ap' : val1_ap,
+        'cont2_ap' : cont2_ap,
+        'den_cont2_ap' : den_cont2_ap,
+        'val2_ap' : val2_ap,
+        'cont3_ap' : cont3_ap,
+        'den_cont3_ap' : den_cont3_ap,
+        'val3_ap' : val3_ap,
+        'cont4_ap' : cont4_ap,
+        'den_cont4_ap' : den_cont4_ap,
+        'val4_ap' : val4_ap,
+        'cont5_ap' : cont5_ap,
+        'den_cont5_ap' : den_cont5_ap,
+        'val5_ap' : val5_ap,
+        'cont6_ap' : cont6_ap,
+        'den_cont6_ap' : den_cont6_ap,
+        'val6_ap' : val6_ap,
+        'cont7_ap' : cont7_ap,
+        'den_cont7_ap' : den_cont7_ap,
+        'val7_ap' : val7_ap,
+        'cont8_ap' : cont8_ap,
+        'den_cont8_ap' : den_cont8_ap,
+        'val8_ap' : val8_ap,
+        'cont9_ap' : cont9_ap,
+        'den_cont9_ap' : den_cont9_ap,
+        'val9_ap' : val9_ap,
+        'cont10_ap' : cont10_ap,
+        'den_cont10_ap' : den_cont10_ap,
+        'val10_ap' : val10_ap,
+
+        
     }
     return var_dict
 
@@ -177,6 +210,15 @@ def doc05():
     doc05_doc.save(doc05_bytes)
     return doc05_bytes.getvalue()
 
+def doc06():
+    doc06_path = Path.cwd() / "Templates" / "06-Declaratie-casier-v1.0.docx"
+    doc06_doc = DocxTemplate(doc06_path)
+    context = var_dictionary()
+    doc06_doc.render(context)
+    doc06_bytes = BytesIO()
+    doc06_doc.save(doc06_bytes)
+    return doc06_bytes.getvalue()
+
 def doc07():
     doc07_path = Path.cwd() / "Templates" / "07-Declaratie-responsabil-conturi-bancare-v1.0.docx"
     doc07_doc = DocxTemplate(doc07_path)
@@ -195,6 +237,15 @@ def doc08():
     doc08_doc.save(doc08_bytes)
     return doc08_bytes.getvalue()
 
+def doc09():
+    doc09_path = Path.cwd() / "Templates" / "09-Proces-verbal-inventariere-v1.0.docx"
+    doc09_doc = DocxTemplate(doc09_path)
+    context = var_dictionary()
+    doc09_doc.render(context)
+    doc09_bytes = BytesIO()
+    doc09_doc.save(doc09_bytes)
+    return doc09_bytes.getvalue()
+
 def create_zip_archive():
     # Generate the content for each document
     doc01_content = doc01()
@@ -202,8 +253,10 @@ def create_zip_archive():
     doc03_content = doc03()
     doc04_content = doc04()
     doc05_content = doc05()
+    doc06_content = doc06()
     doc07_content = doc07()
     doc08_content = doc08()
+    doc09_content = doc09()
     # Create an in-memory zip file
     with io.BytesIO() as zip_buffer:
         with ZipFile(zip_buffer, 'w') as zipf:
@@ -213,8 +266,10 @@ def create_zip_archive():
             zipf.writestr('03-Proceduri-privind-inventarierea-v1.0.docx',doc03_content)
             zipf.writestr('04-Declaratie-gestionar-inainte-inv-v1.0.docx',doc04_content)
             zipf.writestr('05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx',doc05_content)
+            zipf.writestr('06-Declaratie-casier-v1.0.docx',doc06_content)
             zipf.writestr('07-Declaratie-responsabil-conturi-bancare-v1.0.docx',doc07_content)
             zipf.writestr('08-Declaratie-gestionar-sfarsit-inv-v1.0.docx',doc08_content)
+            zipf.writestr('09-Proces-verbal-inventariere-v1.0.docx',doc09_content)
         # Get the zip archive content as bytes
         zip_bytes = zip_buffer.getvalue()
     return zip_bytes
@@ -222,38 +277,39 @@ def create_zip_archive():
 with st.form("inventar", clear_on_submit=False):
         
         col1, col2, col3 = st.columns(3, gap="small")
-        companie = col1.text_input('Companie', value="", placeholder='e.g. ADAKRON', max_chars=None, help='nu adaugati "SRL"')
-        cui = col2.text_input('CUI', value="", placeholder='e.g. 112233', max_chars=None)
-        nr_inreg = col3.text_input('Nr. înregistrare', value="", placeholder='JX/XXXX/XX.XX.XXXX', max_chars=None  )
+        companie = col1.text_input('Companie', value="", key='companie', placeholder='e.g. ADAKRON', max_chars=None, help='nu adaugati "SRL"')
+        cui = col2.text_input('CUI', value="", key='cui', placeholder='e.g. 112233', max_chars=None)
+        nr_inreg = col3.text_input('Nr. înregistrare', value="", key='nr_inreg', placeholder='JX/XXXX/XX.XX.XXXX', max_chars=None  )
 
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([0.25, 0.25, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08], gap="small")
-        loc_sed = col1.text_input('Localitate sediu', placeholder='e.g. BRAȘOV')
-        str_sed = col2.text_input('Strada', placeholder='e.g. NICOLAE LABIȘ')
-        nr_sed = col3.text_input('Nr.', placeholder='xx')
-        bl_sed = col4.text_input('Bl.', placeholder='xx')
-        sc_sed = col5.text_input('Sc.', placeholder='xx')
-        et_sed = col6.text_input('Et.', placeholder='xx')
-        ap_sed = col7.text_input('Ap.', placeholder='xx')
-        cam_sed = col8.text_input('Camera/birou', placeholder='xx')
+        loc_sed = col1.text_input('Localitate sediu', key='loc_sed', placeholder='e.g. BRAȘOV')
+        str_sed = col2.text_input('Strada', key='str_sed', placeholder='e.g. NICOLAE LABIȘ')
+        nr_sed = col3.text_input('Nr.', key='nr_sed', placeholder='xx')
+        bl_sed = col4.text_input('Bl.', key='bl_sed', placeholder='xx')
+        sc_sed = col5.text_input('Sc.', key='sc_sed', placeholder='xx')
+        et_sed = col6.text_input('Et.', key='et_sed', placeholder='xx')
+        ap_sed = col7.text_input('Ap.', key='ap_sed', placeholder='xx')
+        cam_sed = col8.text_input('Camera/birou', key='cam_sed', placeholder='xx')
 
         col1, col2, col3, col4 = st.columns(4, gap="small")
-        jud_sed = col1.text_input('Județ', placeholder='e.g. BRAȘOV')
-        administrator = col2.text_input('Administrator', placeholder='e.g. POPESCU ANDREI')
+        jud_sed = col1.text_input('Județ', key='jud_sed', placeholder='e.g. BRAȘOV')
+        administrator = col2.text_input('Administrator', key='administrator', placeholder='e.g. POPESCU ANDREI')
 
         st.divider()
 
         st.write('Decizie inventariere:')
-
-        col1, col2, col3, col4, col5 = st.columns([0.16, 0.16, 0.16, 0.08, 0.38], gap="small")
-        nr_decz = col1.text_input('Nr. decizie', placeholder='xx')
-        data_decz_tmp = col2.date_input('Data decizie', help=None, format="DD.MM.YYYY")
+        col1, col2, col3, col4, col5 = st.columns([0.135, 0.135, 0.135, 0.09, 0.405], gap="small")
+        nr_decz = col1.text_input('Nr. decizie', key='nr_decz', placeholder='xx')
+        data_decz_tmp = col2.date_input('Data decizie', key='data_decz_tmp', help=None, format="DD.MM.YYYY")
         data_decz = data_decz_tmp.strftime("%d.%m.%Y")
-        data_inv_tmp = col3.date_input('Data inventar', datetime.date.today(), key='data_inv_key', help=None, format="DD.MM.YYYY")
+        data_inv_tmp = col3.date_input('Data inventar', datetime.date.today(), key='data_inv_tmp', help=None, format="DD.MM.YYYY")
         data_inv = data_inv_tmp.strftime("%d.%m.%Y")
         an_inv = data_inv_tmp.year
         data_predare_pv_tmp = data_inv_tmp + datetime.timedelta(days=7)
         data_predare_pv = data_predare_pv_tmp.strftime("%d.%m.%Y")
-        tip_inv = col5.selectbox('Situatiile financiare', (f"anuale întocmite pentru anul {an_inv}", f"interimare întocmite pentru trimestrul I al anului {an_inv}", f"interimare întocmite pentru trimestrul II al anului {an_inv}", f"interimare întocmite pentru trimestrul III al anului {an_inv}"), index=0)
+        tip_inv = col5.selectbox('Situatiile financiare', 
+                                    (f"anuale întocmite pentru anul {an_inv}", f"interimare întocmite pentru trimestrul I al anului {an_inv}", f"interimare întocmite pentru trimestrul II al anului {an_inv}", f"interimare întocmite pentru trimestrul III al anului {an_inv}"), 
+                                    key='tip_inv', index=0)
 #        st.write('Test:', data_predare_pv)
 #        st.write('Test:', an_inv)
 #        st.caption('This is a string that explains something above.')
@@ -263,30 +319,17 @@ with st.form("inventar", clear_on_submit=False):
 #        st.header('This is a header')
 #        st.subheader('This is a subheader')
 #        st.title('This is a title')
+        
         st.divider()
 
         st.write('Declaratie gestionar:')
-        col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
+        col1, col2, col3, col4, col5, col6, col7 = st.columns([0.15, 0.15, 0.15, 0.1, 0.15, 0.15, 0.15], gap="small")
         tip_doc_in_gest = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_gest', index=0, help=None)
-        nr_doc_in_gest = col2.text_input('Nr.', key='nr_doc_in', placeholder='xx')
-        data_doc_in_gest = col3.date_input('Data document', key='data_doc_in', value=None, help=None, format="DD.MM.YYYY")
-        tip_doc_out_gest = col4.selectbox('Tip document iesire', ("Factura", "Raport Z"), key='tip_doc_out_gest', index=0, help=None)
-        nr_doc_out_gest =  col5.text_input('Nr.', key='nr_doc_out', placeholder='xx')
-        data_doc_out_gest = col6.date_input('Data document', key='data_doc_out', value=None, help=None, format="DD.MM.YYYY")
-
-        st.divider()
-
-        st.write('Declaratie gestionar conturi bancare:')
-        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9, gap="small")
-        tip_doc_in_casier_cb = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_casier_cb', index=0, help=None)
-        nr_doc_in_casier_cb = col2.text_input('Nr.', key='nr_doc_in_casier_cb', placeholder='xx')
-        data_doc_in_casier_cb = col3.date_input('Data document', key='data_doc_in_casier_cb', value=None, help=None, format="DD.MM.YYYY")
-        data_incasare_doc_in_cb = col4.date_input('Data încasare', key='data_incasare_doc_in_cb', value=None, help=None, format="DD.MM.YYYY")
-        tip_doc_out_casier_cb = col5.selectbox('Tip document ieșire', ("Factura", "Bon fiscal"), key='tip_doc_out_casier_cb', index=0, help=None)
-        nr_doc_out_casier_cb = col6.text_input('Nr.', key='nr_doc_out_casier_cb', placeholder='xx')
-        data_doc_out_casier_cb = col7.date_input('Data document', key='data_doc_out_casier_cb', value=None, help=None, format="DD.MM.YYYY")
-        data_plata_doc_out_cb = col8.date_input('Data plata', key='data_plata_doc_out_cb', value=None, help=None, format="DD.MM.YYYY")
-        furnizor_plata_out_cb = col9.text_input('Furnizor', key='furnizor_plata_out_cb', placeholder='S.C. ADAKRON S.R.L.')
+        nr_doc_in_gest = col2.text_input('Nr.', key='nr_doc_in_gest', placeholder='xx')
+        data_doc_in_gest = col3.date_input('Data document', key='data_doc_in_gest', value=None, help=None, format="DD.MM.YYYY")
+        tip_doc_out_gest = col5.selectbox('Tip document iesire', ("Factura", "Raport Z"), key='tip_doc_out_gest', index=0, help=None)
+        nr_doc_out_gest =  col6.text_input('Nr.', key='nr_doc_out_gest', placeholder='xx')
+        data_doc_out_gest = col7.date_input('Data document', key='data_doc_out_gest', value=None, help=None, format="DD.MM.YYYY")
 
         st.divider()
 
@@ -346,23 +389,63 @@ with st.form("inventar", clear_on_submit=False):
 
         st.divider()
 
+        st.write('Declaratie casier:')
+        col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([0.10, 0.10, 0.10, 0.10, 0.028, 0.10, 0.10, 0.10, 0.10, 0.172, ], gap="small")
+        tip_doc_in_casier = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_casier', index=0, help=None)
+        nr_doc_in_casier = col2.text_input('Nr.', key='nr_doc_in_casier', placeholder='xx')
+        data_doc_in_casier = col3.date_input('Data document', key='data_doc_in_casier', value=None, help=None, format="DD.MM.YYYY")
+        tip_doc_out_casier = col6.selectbox('Tip document ieșire', ("Factura", "Bon fiscal"), key='tip_doc_out_casier', index=0, help=None)
+        nr_doc_out_casier = col7.text_input('Nr.', key='nr_doc_out_casier', placeholder='xx')
+        data_doc_out_casier = col8.date_input('Data document', key='data_doc_out_casier', value=None, help=None, format="DD.MM.YYYY")
+
+        st.divider()
+
+        st.write('Declaratie gestionar conturi bancare:')
+        col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([0.10, 0.10, 0.10, 0.10, 0.028, 0.10, 0.10, 0.10, 0.10, 0.172, ], gap="small")
+        tip_doc_in_casier_cb = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_casier_cb', index=0, help=None)
+        nr_doc_in_casier_cb = col2.text_input('Nr.', key='nr_doc_in_casier_cb', placeholder='xx')
+        data_doc_in_casier_cb = col3.date_input('Data document', key='data_doc_in_casier_cb', value=None, help=None, format="DD.MM.YYYY")
+        data_incasare_doc_in_cb = col4.date_input('Data încasare', key='data_incasare_doc_in_cb', value=None, help=None, format="DD.MM.YYYY")
+        tip_doc_out_casier_cb = col6.selectbox('Tip document ieșire', ("Factura", "Bon fiscal"), key='tip_doc_out_casier_cb', index=0, help=None)
+        nr_doc_out_casier_cb = col7.text_input('Nr.', key='nr_doc_out_casier_cb', placeholder='xx')
+        data_doc_out_casier_cb = col8.date_input('Data document', key='data_doc_out_casier_cb', value=None, help=None, format="DD.MM.YYYY")
+        data_plata_doc_out_cb = col9.date_input('Data plata', key='data_plata_doc_out_cb', value=None, help=None, format="DD.MM.YYYY")
+        furnizor_plata_out_cb = col10.text_input('Furnizor', key='furnizor_plata_out_cb', placeholder='S.C. ADAKRON S.R.L.')
+
+        st.divider()
+
         st.write('Proces verbal privind rezultatele inventarierii:')
         col1, col2, col3, col4, col5 = st.columns([0.125, 0.125, 0.375, 0.125, 0.25], gap="small")
-        col2.text_input('Cont', key='cont1_ap', placeholder='1038', label_visibility="collapsed")
-        col3.write('Diferente din modificarea valorii juste a activelor financiare disponibile in vederea vanzarii si alte elemente de capitaluri proprii (A/P)')
-        col4.text_input('Valoare', key='val1_ap', placeholder='Valoare', label_visibility="collapsed")
-        col2.text_input('Cont', key='cont2_ap', placeholder='....', label_visibility="collapsed")
-        col3.write('...')
-        col4.text_input('Valoare', key='val2_ap', placeholder='Valoare', label_visibility="collapsed")
-        col2.text_input('Cont', key='cont3_ap', placeholder='....', label_visibility="collapsed")
-        col3.write('...')
-        col4.text_input('Valoare', key='val3_ap', placeholder='Valoare', label_visibility="collapsed")
-        col2.text_input('Cont', key='cont4_ap', placeholder='....', label_visibility="collapsed")
-        col3.write('...')
-        col4.text_input('Valoare', key='val4_ap', placeholder='Valoare', label_visibility="collapsed")
-        col2.text_input('Cont', key='cont5_ap', placeholder='....', label_visibility="collapsed")
-        col3.write('...')
-        col4.text_input('Valoare', key='val5_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont1_ap = col2.text_input('Cont', key='cont1_ap', placeholder='1038', label_visibility="collapsed")
+        den_cont1_ap = col3.text_input('Denumire cont', key='den_cont1_ap', placeholder='Diferente din modificarea valorii juste a activelor financiare disponibile in vederea vanzarii si alte elemente de capitaluri proprii (A/P)', label_visibility="collapsed")
+        val1_ap = col4.text_input('Valoare', key='val1_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont2_ap = col2.text_input('Cont', key='cont2_ap', placeholder='....', label_visibility="collapsed")
+        den_cont2_ap = col3.text_input('Denumire cont', key='den_cont2_ap', placeholder='.....', label_visibility="collapsed")
+        val2_ap = col4.text_input('Valoare', key='val2_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont3_ap = col2.text_input('Cont', key='cont3_ap', placeholder='....', label_visibility="collapsed")
+        den_cont3_ap = col3.text_input('Denumire cont', key='den_cont3_ap', placeholder='.....', label_visibility="collapsed")
+        val3_ap = col4.text_input('Valoare', key='val3_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont4_ap = col2.text_input('Cont', key='cont4_ap', placeholder='....', label_visibility="collapsed")
+        den_cont4_ap = col3.text_input('Denumire cont', key='den_cont4_ap', placeholder='.....', label_visibility="collapsed")
+        val4_ap = col4.text_input('Valoare', key='val4_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont5_ap = col2.text_input('Cont', key='cont5_ap', placeholder='....', label_visibility="collapsed")
+        den_cont5_ap = col3.text_input('Denumire cont', key='den_cont5_ap', placeholder='.....', label_visibility="collapsed")
+        val5_ap = col4.text_input('Valoare', key='val5_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont6_ap = col2.text_input('Cont', key='cont6_ap', placeholder='....', label_visibility="collapsed")
+        den_cont6_ap = col3.text_input('Denumire cont', key='den_cont6_ap', placeholder='.....', label_visibility="collapsed")
+        val6_ap = col4.text_input('Valoare', key='val6_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont7_ap = col2.text_input('Cont', key='cont7_ap', placeholder='....', label_visibility="collapsed")
+        den_cont7_ap = col3.text_input('Denumire cont', key='den_cont7_ap', placeholder='.....', label_visibility="collapsed")
+        val7_ap = col4.text_input('Valoare', key='val7_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont8_ap = col2.text_input('Cont', key='cont8_ap', placeholder='....', label_visibility="collapsed")
+        den_cont8_ap = col3.text_input('Denumire cont', key='den_cont8_ap', placeholder='.....', label_visibility="collapsed")
+        val8_ap = col4.text_input('Valoare', key='val8_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont9_ap = col2.text_input('Cont', key='cont9_ap', placeholder='....', label_visibility="collapsed")
+        den_cont9_ap = col3.text_input('Denumire cont', key='den_cont9_ap', placeholder='.....', label_visibility="collapsed")
+        val9_ap = col4.text_input('Valoare', key='val9_ap', placeholder='Valoare', label_visibility="collapsed")
+        cont10_ap = col2.text_input('Cont', key='cont10_ap', placeholder='....', label_visibility="collapsed")
+        den_cont10_ap = col3.text_input('Denumire cont', key='den_cont10_ap', placeholder='.....', label_visibility="collapsed")
+        val10_ap = col4.text_input('Valoare', key='val10_ap', placeholder='Valoare', label_visibility="collapsed")
 
         st.divider()
 
@@ -390,7 +473,7 @@ if submitted:
         zip_archive = create_zip_archive()
 #        test = generate_act_constitutiv()
     st.success("Succes! Documentele pot fi descărcate acum de mai jos!")
-    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{companie}-documente.zip", mime="docx", type="primary")
+    st.download_button(label="Pas 2: Downloadează", data=zip_archive, file_name=f"{companie}-acte-inventariere-{datetime.date.today()}.zip", mime="docx", type="primary")
 
 #    test = st.session_state.AS1_NUME
 #    st.write(f"Value of AS1_NUME: {test}")
