@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from io import BytesIO
 import locale
 
-locale.setlocale(locale.LC_ALL, 'ro_RO')
+locale.setlocale(locale.LC_ALL, 'ro_RO.UTF-8')
 
 st.set_page_config(
     page_title='Inventariere', 
