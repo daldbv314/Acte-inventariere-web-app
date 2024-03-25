@@ -7,6 +7,9 @@ from pathlib import Path
 from docxtpl import DocxTemplate
 from dotenv import load_dotenv
 from io import BytesIO
+import locale
+
+locale.setlocale(locale.LC_ALL, 'ro_RO')
 
 st.set_page_config(
     page_title='Inventariere', 
@@ -477,7 +480,8 @@ if submitted:
         totbani5 = 0.05 * bani5
         totban1  = 0.01 * ban1
 
-        sold_casa_lei = totlei500 + totlei200 + totlei100 + totlei50 + totlei20 + totlei10 + totlei5 + totlei10 + totlei5 + totleu1 + totbani50 + totbani10 + totbani5 + totban1
+        sold_casa_lei_tmp = totlei500 + totlei200 + totlei100 + totlei50 + totlei20 + totlei10 + totlei5 + totlei10 + totlei5 + totleu1 + totbani50 + totbani10 + totbani5 + totban1
+        sold_casa_lei = locale._format("%.2f", sold_casa_lei_tmp, True)
 
         zip_archive = create_zip_archive()
 #        test = generate_act_constitutiv()
