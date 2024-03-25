@@ -394,11 +394,11 @@ with st.form("inventar", clear_on_submit=False):
 
         st.write('Declaratie casier:')
         col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([0.11, 0.10, 0.10, 0.10, 0.028, 0.10, 0.10, 0.10, 0.10, 0.172, ], gap="small")
-        tip_doc_in_casier = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal"), key='tip_doc_in_casier', index=0, help=None)
+        tip_doc_in_casier = col1.selectbox('Tip document intrare', ("Factura", "Bon fiscal", "Dispozițe de încasare"), key='tip_doc_in_casier', index=0, help=None)
         nr_doc_in_casier = col2.text_input('Nr.', key='nr_doc_in_casier', placeholder='xx')
         data_doc_in_casier_tmp = col3.date_input('Data document', datetime.date.today(), key='data_doc_in_casier_tmp', help=None, format="DD.MM.YYYY")
         data_doc_in_casier = data_doc_in_casier_tmp.strftime("%d.%m.%Y")
-        tip_doc_out_casier = col6.selectbox('Tip document ieșire', ("Factura", "Bon fiscal"), key='tip_doc_out_casier', index=0, help=None)
+        tip_doc_out_casier = col6.selectbox('Tip document ieșire', ("Factura", "Bon fiscal", "Dispoziție de plată", "Chitanță"), key='tip_doc_out_casier', index=0, help=None)
         nr_doc_out_casier = col7.text_input('Nr.', key='nr_doc_out_casier', placeholder='xx')
         data_doc_out_casier_tmp = col8.date_input('Data document', datetime.date.today(), key='data_doc_out_casier_tmp', help=None, format="DD.MM.YYYY")
         data_doc_out_casier = data_doc_out_casier_tmp.strftime("%d.%m.%Y")
