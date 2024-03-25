@@ -261,15 +261,15 @@ def create_zip_archive():
     with io.BytesIO() as zip_buffer:
         with ZipFile(zip_buffer, 'w') as zipf:
             # Add each doc to the archive
-            zipf.writestr('01-Decizie-inventariere-v1.0.docx',doc01_content)
-            zipf.writestr('02-Grafic-de-desfasurare-inventariere-v1.0.docx',doc02_content)
-            zipf.writestr('03-Proceduri-privind-inventarierea-v1.0.docx',doc03_content)
-            zipf.writestr('04-Declaratie-gestionar-inainte-inv-v1.0.docx',doc04_content)
-            zipf.writestr('05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx',doc05_content)
-            zipf.writestr('06-Declaratie-casier-v1.0.docx',doc06_content)
-            zipf.writestr('07-Declaratie-responsabil-conturi-bancare-v1.0.docx',doc07_content)
-            zipf.writestr('08-Declaratie-gestionar-sfarsit-inv-v1.0.docx',doc08_content)
-            zipf.writestr('09-Proces-verbal-inventariere-v1.0.docx',doc09_content)
+            zipf.writestr(f"{companie}-01-Decizie-inventariere-v1.0.docx",doc01_content)
+            zipf.writestr(f"{companie}-02-Grafic-de-desfasurare-inventariere-v1.0.docx",doc02_content)
+            zipf.writestr(f"{companie}-03-Proceduri-privind-inventarierea-v1.0.docx",doc03_content)
+            zipf.writestr(f"{companie}-04-Declaratie-gestionar-inainte-inv-v1.0.docx",doc04_content)
+            zipf.writestr(f"{companie}-05-PV-inventariere-numerar-si-conturi-banci-v1.0.docx",doc05_content)
+            zipf.writestr(f"{companie}-06-Declaratie-casier-v1.0.docx",doc06_content)
+            zipf.writestr(f"{companie}-07-Declaratie-responsabil-conturi-bancare-v1.0.docx",doc07_content)
+            zipf.writestr(f"{companie}-08-Declaratie-gestionar-sfarsit-inv-v1.0.docx",doc08_content)
+            zipf.writestr(f"{companie}-09-Proces-verbal-inventariere-v1.0.docx",doc09_content)
         # Get the zip archive content as bytes
         zip_bytes = zip_buffer.getvalue()
     return zip_bytes
